@@ -162,6 +162,10 @@ public class App extends Application {
                         Label quantity = new Label("Quantity");
                         gridOrder.add(quantity,2,2);
                         quantity.setFont(menuFont);
+
+                        Label bill = new Label("Total Bill");
+                        gridOrder.add(bill,3,2);
+                        bill.setFont(menuFont);
                         
                         //menu items
                         Label pp = new Label("Panipuri");
@@ -187,6 +191,44 @@ public class App extends Application {
                         TextField bpE = new TextField();
                         gridOrder.add(bpE,2,5);
                         newWindow.show();
+
+                        Label panipuri = new Label();
+                        gridOrder.add(panipuri,3,3);
+                        Label masalapuri = new Label();
+                        gridOrder.add(masalapuri,3,4);
+                        Label bhelpuri = new Label();
+                        gridOrder.add(bhelpuri,3,5);
+                        Label t = new Label();
+                        gridOrder.add(t,3,6);
+                        Button foodprice = new Button("Check Total Price");
+                        gridOrder.add(foodprice,3,7);
+                        foodprice.setOnAction(new EventHandler<ActionEvent>(){
+                            public void handle(ActionEvent f){
+                                String b = mpE.getText(),c = bpE.getText();
+                                System.out.println(ppE.getText() == null);
+                                int p,m,b2,total;
+                                
+                                    //p = Integer.parseInt(a);
+                                    //p = p * 25;
+                                
+                                
+                                
+                                    p = 0;
+                                
+                                
+
+                                m = Integer.parseInt(b);
+                                m = m * 30;
+
+                                b2 = Integer.parseInt(c);
+                                b2 = b2 * 30;
+                                total = 
+                                panipuri.setText("Rs."+String.valueOf(p));
+                                masalapuri.setText("Rs."+String.valueOf(m));
+                                bhelpuri.setText("Rs."+String.valueOf(b2));
+
+                            }
+                        });
 
                         Button order = new Button("Place Order");
                         gridOrder.add(order,2,6);
@@ -225,6 +267,7 @@ public class App extends Application {
                                     
                                     System.out.println(e1);
                                 }
+
                             }
                                 
                         });
