@@ -5,32 +5,20 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.event.*;
 import javafx.geometry.*;
-import javafx.scene.paint.*;
 import javafx.scene.text.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import com.mysql.cj.xdevapi.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 public class App extends Application {
+    String mainreq;
     public static void main(String[] args) {
+    
     launch(args);
     }
     public void start(Stage primaryStage) {
-        Connection con = null;
-        Statement stmt = null;
-        String url;
-        try{
-            Class classlldr = Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Name of Class = " + classlldr.getName());
-            System.out.println("Package Name = " + classlldr.getPackage());
-            System.out.println("Interface Name = " + classlldr.getInterfaces());
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            url="jdbc:mysql://localhost:3306/spring";
-            con = DriverManager.getConnection(url);
-        }
-        catch (Exception e){
-            System.out.println("error");
-            System.exit(0);
-        }
+    
         primaryStage.setTitle("Employee Login Form");
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -54,10 +42,51 @@ public class App extends Application {
         grid.add(pwBox, 1, 2);
         Button btn = new Button("Sign in");
         grid.add(btn, 1, 4);
+        Label response = new Label();
+        grid.add(response,1,5);
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                try {
+                    Class c1=Class.forName("com.mysql.cj.jdbc.Driver");
+                       
+                   final String JdbcDriver="com.mysql.cj.jdbc.Driver";
+                   final String user="root";
+                   final String pass="nameesha";
+                   final String db_url="jdbc:mysql://127.0.0.1:3306/login";
+                   Connection con=DriverManager.getConnection(db_url,user,pass);
+                   
+                   Statement stmt=(Statement) con.createStatement();
+                   ResultSet rs = stmt.executeQuery("select * from users;");
+                   int res=0;
+                   String eD;
+                   String dD;
+                   String eP,dP;
+                   while(rs.next()){
+                     eD = userTextField.getText();
+                     dD = rs.getString(1);
+                     eP = pwBox.getText();
+                     dP = rs.getString(2);
+                     if(eD.equals(dD) && eP.equals(dP))
+                     {
+                         res = 1;
+                         break;
+                     }
+                     if(res == 0)
+                     {
+                         System.out.println("Wrong username or password");
+                         System.exit(0);
+                     }
+                     con.close();
+                   }
+                   
+               }
+                catch(Exception e1){
+                    
+                    System.out.println(e1);
+                }
+                
                 primaryStage.close();
                 GridPane data = new GridPane();
                 
@@ -96,6 +125,12 @@ public class App extends Application {
 
                     @Override
                     public void handle(ActionEvent e) {
+                           String name,ph,age;
+                           name = nameD.getText();
+                           mainreq = nameD.getText();
+                           ph = phD.getText();
+                           age = ageD.getText();
+                        
                         dataWindow.close();
                         GridPane gridOrder = new GridPane();
                         
@@ -155,6 +190,78 @@ public class App extends Application {
 
                         Button order = new Button("Place Order");
                         gridOrder.add(order,2,6);
+                        order.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent e) {
+                                try {
+                                    Class c1=Class.forName("com.mysql.cj.jdbc.Driver");
+                                       
+                                   final String JdbcDriver="com.mysql.cj.jdbc.Driver";
+                                   final String user="root";
+                                   final String pass="nameesha";
+                                   final String db_url="jdbc:mysql://127.0.0.1:3306/login";
+                                   Connection con=DriverManager.getConnection(db_url,user,pass);
+                                   
+                                   Statement stmt=(Statement) con.createStatement();
+                                   String sql = "INSERT INTO user_details("
+                                            + "name,"
+                                            + "phoneno, "
+                                            + "age,"
+                                            + "pp,"
+                                            + "mp,"
+                                            + "bp)"
+                                            +  "VALUES(?,?,?,?,?,?)";
+                                            PreparedStatement preparedStatement = con.prepareStatement(sql);
+                                            preparedStatement.setString(1,name);
+                                            preparedStatement.setString(2,ph);
+                                            preparedStatement.setString(3,age);
+                                            preparedStatement.setString(4,ppE.getText());
+                                            preparedStatement.setString(5,mpE.getText());
+                                            preparedStatement.setString(6,bpE.getText());
+                                            preparedStatement.execute();
+                                            con.close();
+                                }
+                                catch(Exception e1){
+                                    
+                                    System.out.println(e1);
+                                }
+                            }
+                                
+                        });
+                        Button previous = new Button("Load previous order?");
+                        gridOrder.add(previous,2,7);
+                        previous.setOnAction(new EventHandler<ActionEvent>(){
+                            @Override
+                            public void handle(ActionEvent e)
+                            {
+                                try {
+                                    Class c1=Class.forName("com.mysql.cj.jdbc.Driver");
+                                       
+                                   final String JdbcDriver="com.mysql.cj.jdbc.Driver";
+                                   final String user="root";
+                                   final String pass="nameesha";
+                                   final String db_url="jdbc:mysql://127.0.0.1:3306/login";
+                                   Connection con=DriverManager.getConnection(db_url,user,pass);
+                                   
+                                   Statement stmt=(Statement) con.createStatement();
+                                   
+                                   ResultSet rs1 = stmt.executeQuery("select pp,mp,bp from user_details where name='"+mainreq+"';");
+                                   while(rs1.next()){
+                                        ppE.setText(rs1.getString(1));
+                                        mpE.setText(rs1.getString(2));
+                                        bpE.setText(rs1.getString(3));
+                                        break;
+                                   }
+                                   ppE.setText(rs1.getString(1));
+                                   con.close();
+                                }
+                                catch(Exception e1)
+                                {
+
+                                }
+                            }
+                        });
+                        
                     
                     }
                 });
