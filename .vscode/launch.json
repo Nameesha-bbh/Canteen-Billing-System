@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch file",
+            "request": "launch",
+            "mainClass": "file",
+            "projectName": "CanteenBillingSoftware_21999e40"
+        },
+        {
+            "type": "java",
             "name": "Launch App",
             "request": "launch",
             "vmArgs": "--module-path C:/Users/NAMEESH/Downloads/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
