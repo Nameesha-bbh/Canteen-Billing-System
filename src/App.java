@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 public class App extends Application {
-    String mainreq;
+    String mainreq,mainnum,mainage;
     public static void main(String[] args) {
     
     launch(args);
@@ -48,7 +48,7 @@ public class App extends Application {
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                try {
+                /*try {
                     Class c1=Class.forName("com.mysql.cj.jdbc.Driver");
                        
                    final String JdbcDriver="com.mysql.cj.jdbc.Driver";
@@ -85,7 +85,7 @@ public class App extends Application {
                 catch(Exception e1){
                     
                     System.out.println(e1);
-                }
+                }*/
                 
                 primaryStage.close();
                 GridPane data = new GridPane();
@@ -128,6 +128,8 @@ public class App extends Application {
                            String name,ph,age;
                            name = nameD.getText();
                            mainreq = nameD.getText();
+                           mainnum = phD.getText();
+                           mainage = ageD.getText();
                            ph = phD.getText();
                            age = ageD.getText();
                         
@@ -190,7 +192,7 @@ public class App extends Application {
                         gridOrder.add(mpE,2,4);
                         TextField bpE = new TextField();
                         gridOrder.add(bpE,2,5);
-                        newWindow.show();
+                        
 
                         Label panipuri = new Label();
                         gridOrder.add(panipuri,3,3);
@@ -204,29 +206,44 @@ public class App extends Application {
                         gridOrder.add(foodprice,3,7);
                         foodprice.setOnAction(new EventHandler<ActionEvent>(){
                             public void handle(ActionEvent f){
-                                String b = mpE.getText(),c = bpE.getText();
-                                System.out.println(ppE.getText() == null);
-                                int p,m,b2,total;
-                                
-                                    //p = Integer.parseInt(a);
-                                    //p = p * 25;
-                                
-                                
-                                
-                                    p = 0;
-                                
-                                
+                                int p=0,m=0,b2=0,total=1;
+                                if (ppE.getText().equals(""))
+                                {
+                                    panipuri.setText("Rs."+String.valueOf(p));
+                                }
+                                else{
 
-                                m = Integer.parseInt(b);
-                                m = m * 30;
+                                    p = Integer.parseInt(ppE.getText());
+                                    p = p * 25;
+                                    panipuri.setText("Rs."+String.valueOf(p));
+                                }
+                               
+                                if (mpE.getText().equals(""))
+                                {
+                                    masalapuri.setText("Rs."+String.valueOf(m));
+                                }
+                                else{
 
-                                b2 = Integer.parseInt(c);
-                                b2 = b2 * 30;
-                                total = 
-                                panipuri.setText("Rs."+String.valueOf(p));
-                                masalapuri.setText("Rs."+String.valueOf(m));
-                                bhelpuri.setText("Rs."+String.valueOf(b2));
+                                    m = Integer.parseInt(mpE.getText());
+                                    m = m * 30;
+                                    masalapuri.setText("Rs."+String.valueOf(m));
+                                }
 
+                                if (bpE.getText().equals(""))
+                                {
+                                    bhelpuri.setText("Rs."+String.valueOf(b2));
+                                }
+                                else{
+
+                                    b2 = Integer.parseInt(bpE.getText());
+                                    b2 = b2 * 30;
+                                    bhelpuri.setText("Rs."+String.valueOf(b2));
+                                }
+                                total = p + m + b2;
+                                t.setText("Total Price is Rs."+total);
+                                
+                                
+                                
                             }
                         });
 
@@ -267,7 +284,33 @@ public class App extends Application {
                                     
                                     System.out.println(e1);
                                 }
+                                newWindow.close();
+                                GridPane bill = new GridPane();
+                
+                                bill.setHgap(10);
+                                bill.setVgap(10);
+                                bill.setPadding(new Insets(25, 25, 25, 25));
+                                Scene billScene = new Scene(bill, 400, 300);
+                                
+                                Stage billWindow = new Stage();
+                                billWindow.setScene(billScene);
+                                billWindow.setTitle("Total Bill");
 
+                                Label d = new Label("FINAL BILL FOR YOUR ORDERS");
+                                Font font = Font.font("Verdana", FontWeight.BLACK, 15);
+                                d.setFont(font);
+                                bill.add(d,0,1);
+                                Font menuFont = Font.font("Aerial",FontWeight.BLACK, 15);
+                        
+                                Label foodItems = new Label("Food Ordered");
+                                foodItems.setFont(menuFont);
+                                bill.add(foodItems,0,2);
+                                
+                                Label price = new Label("Price");
+                                price.setFont(menuFont);
+                                bill.add(price,1,2);
+
+                                billWindow.show();
                             }
                                 
                         });
@@ -288,7 +331,7 @@ public class App extends Application {
                                    
                                    Statement stmt=(Statement) con.createStatement();
                                    
-                                   ResultSet rs1 = stmt.executeQuery("select pp,mp,bp from user_details where name='"+mainreq+"';");
+                                   ResultSet rs1 = stmt.executeQuery("select pp,mp,bp from user_details where name='"+mainreq+"' and phoneno='"+mainnum+"' and age='"+mainage+"';");
                                    while(rs1.next()){
                                         ppE.setText(rs1.getString(1));
                                         mpE.setText(rs1.getString(2));
@@ -303,7 +346,7 @@ public class App extends Application {
 
                                 }
                             }
-                        });
+                        });newWindow.show();
                         
                     
                     }
