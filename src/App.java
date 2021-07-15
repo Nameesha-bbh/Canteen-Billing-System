@@ -270,21 +270,21 @@ public class App extends Application{
                                         
                                         if(ppE.getText().equals(""))
                                         {
-
+                                            paniPuri = 0;
                                         }
                                         else{
                                             paniPuri = Integer.parseInt(ppE.getText())*25;
                                         }
                                         if(mpE.getText().equals(""))
                                         {
-
+                                            masalaPuri = 0;
                                         }
                                         else{
                                             masalaPuri = Integer.parseInt(mpE.getText())*30;
                                         }
                                         if(bpE.getText().equals(""))
                                         {
-
+                                            bhelPuri = 0;
                                         }
                                         else{
                                             bhelPuri = Integer.parseInt(bpE.getText())*30;
@@ -327,17 +327,62 @@ public class App extends Application{
                         
                                         bill.setHgap(10);
                                         bill.setVgap(10);
-                                        bill.setAlignment(Pos.CENTER);
+                                        
                                         bill.setPadding(new Insets(25, 25, 25, 25));
-                                        Scene billScene = new Scene(bill, 300, 100);
+                                        Scene billScene = new Scene(bill, 300, 300);
                                         
                                         Stage billWindow = new Stage();
                                         billWindow.setScene(billScene);
-                                        billWindow.setTitle("Print Bill");
+                                        billWindow.setTitle("Final Bill");
+                                        Font menuFont = Font.font("Aerial",FontWeight.BLACK, 15);
+                                
+                                        Label billMenu = new Label("Food Ordered");
+                                        bill.add(billMenu,0,1);
+                                        billMenu.setFont(menuFont);
+                                        Label billPrice = new Label("Price");
+                                        bill.add(billPrice,1,1);
+                                        billPrice.setFont(menuFont);
+                                        int i=2,j=2;
+                                        if(paniPuri != 0)
+                                        {
+                                            Label finalP = new Label("Pani Puri");
+                                            bill.add(finalP,0,i);
+                                            i++;
+                                            Label finalPB = new Label();
+                                            bill.add(finalPB,1,j);
+                                            j++;
+                                            finalPB.setText(Integer.toString(paniPuri));
+                                        }
+                                        if(masalaPuri != 0)
+                                        {
+                                            Label finalM = new Label("Masala Puri");
+                                            bill.add(finalM,0,i);
+                                            i++;
+                                            Label finalPM = new Label();
+                                            bill.add(finalPM,1,j);
+                                            j++;
+                                            finalPM.setText(Integer.toString(masalaPuri));
+                                        }
+                                        if(bhelPuri != 0)
+                                        {
+                                            Label finalB = new Label("Bhel Puri");
+                                            bill.add(finalB,0,i);
+                                            i++;
+                                            Label finalBB = new Label();
+                                            bill.add(finalBB,1,j);
+                                            j++;
+                                            finalBB.setText(Integer.toString(bhelPuri));
+                                        }
+                                        Label totalBill = new Label();
+                                        bill.add(totalBill,0,i);
+                                        int finalBillPrint = paniPuri + masalaPuri + bhelPuri;
+                                        if(finalBillPrint > 0)
+                                            totalBill.setText("Total Price : Rs."+Integer.toString(finalBillPrint));
+                                        //Later
                                         Label question = new Label("Do you want to print the bill?");
-                                        bill.add(question,1,1);
+                                        bill.add(question,0,i+1);
                                         Button print = new Button("YES");
-                                        bill.add(print,0,3);
+                                        bill.add(print,1,j+1);
                                         print.setOnAction(new EventHandler<ActionEvent>(){
                                             public void handle(ActionEvent x)
                                             {
@@ -378,7 +423,8 @@ public class App extends Application{
                                                 billWindow.close();
                                             }
                                         });
-                                        bill.add(no,2,3);
+                                        j = j + 1;
+                                        bill.add(no,2,j);
                                         billWindow.show();
                                     }
                                 });

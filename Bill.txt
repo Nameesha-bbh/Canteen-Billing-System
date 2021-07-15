@@ -1,0 +1,10 @@
+Customer Name: 
+Customer number: 
+Customer age: 
+**************TOTAL AMOUNT**************
+FOOD          QUANTITY    RATE(In Rupee)
+Pani Puri        11         275
+Masala Puri      21         630
+Bhel Puri        31         930
+****************************************
+Total amount: Rs.1835
