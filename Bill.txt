@@ -1,10 +1,13 @@
-Customer Name: 
-Customer number: 
-Customer age: 
+Customer ID: 1
+Customer Name: Nameesha
+Customer number: 8277501000
+Customer age: 19
 **************TOTAL AMOUNT**************
-FOOD          QUANTITY    RATE(In Rupee)
-Pani Puri        11         275
-Masala Puri      21         630
-Bhel Puri        31         930
+FOOD                QUANTITY     RATE(In Rupee)
+Pani Puri              1         25
+Masala Puri            2         60
+Bhel Puri              3         90
+Veg Noodles            4         200
+Chicken Noodles        5         500
 ****************************************
-Total amount: Rs.1835
+Total amount: Rs.875

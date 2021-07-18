@@ -16,8 +16,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 public class App extends Application{
-    String mainreq,mainnum,mainage;
-    int paniPuri=0, masalaPuri=0,bhelPuri =0;
+    String mainreq,mainnum,mainage,mainid;
+    int updateDBMS=0;
+    int paniPuri=0, masalaPuri=0,bhelPuri =0,vegNoodles=0,chickenNoodles=0;
     public static void main(String[] args)  throws IOException{
     
     launch(args);
@@ -125,33 +126,39 @@ public class App extends Application{
                         d.setFont(font);
                         data.add(d,0,1);
                         
+                        Label id = new Label("Customer ID:");
+                        data.add(id,0,2);
+                        TextField ID = new TextField();
+                        data.add(ID,1,2);
+
                         Label name = new Label("Customer name:");
-                        data.add(name,0,2);
+                        data.add(name,0,3);
                         TextField nameD = new TextField();
-                        data.add(nameD,1,2);
+                        data.add(nameD,1,3);
         
                         Label ph = new Label("Customer phone number:");
-                        data.add(ph,0,3);
+                        data.add(ph,0,4);
                         TextField phD = new TextField();
-                        data.add(phD,1,3);
+                        data.add(phD,1,4);
         
                         Label age = new Label("Customer age:");
-                        data.add(age,0,4);
+                        data.add(age,0,5);
                         TextField ageD = new TextField();
-                        data.add(ageD,1,4);
+                        data.add(ageD,1,5);
         
                         Button submit = new Button("Submit details");
-                        data.add(submit,0,5);
+                        data.add(submit,0,6);
                         submit.setOnAction(new EventHandler<ActionEvent>() {
                             public void handle(ActionEvent g){
                                 String name,ph,age;
+                                int id_g = Integer.parseInt(ID.getText());
                                 name = nameD.getText();
                                 mainreq = nameD.getText();
                                 mainnum = phD.getText();
                                 mainage = ageD.getText();
                                 ph = phD.getText();
                                 age = ageD.getText();
-                             
+                                mainid = ID.getText();
                                 dataWindow.close();
                                 GridPane gridOrder = new GridPane();
                                 
@@ -195,6 +202,10 @@ public class App extends Application{
                                 gridOrder.add(mp,0,4);
                                 Label bp = new Label("Bhel Puri");
                                 gridOrder.add(bp,0,5);
+                                Label vn = new Label("Veg Noodles");
+                                gridOrder.add(vn,0,6);
+                                Label cn = new Label("Chicken Noodles");
+                                gridOrder.add(cn,0,7);
         
                                 //menu price
                                 Label ppPrice = new Label("RS. 25");
@@ -203,6 +214,10 @@ public class App extends Application{
                                 gridOrder.add(mpPrice,1,4);
                                 Label bpPrice = new Label("RS. 30");
                                 gridOrder.add(bpPrice,1,5);
+                                Label vnPrice = new Label("RS. 50");
+                                gridOrder.add(vnPrice,1,6);
+                                Label cnPrice = new Label("RS. 100");
+                                gridOrder.add(cnPrice,1,7);
         
                                 //Quantity textfield
                                 TextField ppE = new TextField();
@@ -211,6 +226,10 @@ public class App extends Application{
                                 gridOrder.add(mpE,2,4);
                                 TextField bpE = new TextField();
                                 gridOrder.add(bpE,2,5);
+                                TextField vnE = new TextField();
+                                gridOrder.add(vnE,2,6);
+                                TextField cnE = new TextField();
+                                gridOrder.add(cnE,2,7);
                                 
         
                                 Label panipuri = new Label();
@@ -219,13 +238,17 @@ public class App extends Application{
                                 gridOrder.add(masalapuri,3,4);
                                 Label bhelpuri = new Label();
                                 gridOrder.add(bhelpuri,3,5);
+                                Label vegnoodles = new Label();
+                                gridOrder.add(vegnoodles,3,6);
+                                Label chiknoodles = new Label();
+                                gridOrder.add(chiknoodles,3,7);
                                 Label t = new Label();
-                                gridOrder.add(t,3,6);
+                                gridOrder.add(t,3,8);
                                 Button foodprice = new Button("Check Total Price");
-                                gridOrder.add(foodprice,3,7);
+                                gridOrder.add(foodprice,3,9);
                                 foodprice.setOnAction(new EventHandler<ActionEvent>(){
                                     public void handle(ActionEvent h){
-                                        int p=0,m=0,b2=0,total=1;
+                                        int p=0,m=0,b2=0,v=0,c=0,total=1;
                                         if (ppE.getText().equals(""))
                                         {
                                             panipuri.setText("Rs."+String.valueOf(p));
@@ -258,12 +281,32 @@ public class App extends Application{
                                             b2 = b2 * 30;
                                             bhelpuri.setText("Rs."+String.valueOf(b2));
                                         }
-                                        total = p + m + b2;
+                                        if (vnE.getText().equals(""))
+                                        {
+                                            vegnoodles.setText("Rs."+String.valueOf(v));
+                                        }
+                                        else{
+        
+                                            v = Integer.parseInt(vnE.getText());
+                                            v = v * 50;;
+                                            vegnoodles.setText("Rs."+String.valueOf(v));
+                                        }
+                                        if (cnE.getText().equals(""))
+                                        {
+                                            chiknoodles.setText("Rs."+String.valueOf(c));
+                                        }
+                                        else{
+        
+                                            c = Integer.parseInt(cnE.getText());
+                                            c = c * 100;
+                                            chiknoodles.setText("Rs."+String.valueOf(c));
+                                        }
+                                        total = p + m + b2 + v + c;
                                         t.setText("Total Price is Rs."+total);
                                     }
                                 });
                                 Button order = new Button("Place Order");
-                                gridOrder.add(order,2,6);
+                                gridOrder.add(order,2,8);
                                 order.setOnAction(new EventHandler<ActionEvent>() {
                                     @Override
                                     public void handle(ActionEvent e) {
@@ -289,6 +332,20 @@ public class App extends Application{
                                         else{
                                             bhelPuri = Integer.parseInt(bpE.getText())*30;
                                         }
+                                        if(vnE.getText().equals(""))
+                                        {
+                                            vegNoodles = 0;
+                                        }
+                                        else{
+                                            vegNoodles = Integer.parseInt(vnE.getText())*50;
+                                        }
+                                        if(cnE.getText().equals(""))
+                                        {
+                                            chickenNoodles = 0;
+                                        }
+                                        else{
+                                            chickenNoodles = Integer.parseInt(cnE.getText())*100;
+                                        }if(updateDBMS == 0){
                                         try 
                                         {
                                             Class c1=Class.forName("com.mysql.cj.jdbc.Driver");
@@ -306,8 +363,11 @@ public class App extends Application{
                                                     + "age,"
                                                     + "pp,"
                                                     + "mp,"
-                                                    + "bp)"
-                                                    +  "VALUES(?,?,?,?,?,?)";
+                                                    + "bp,"
+                                                    + "vn,"
+                                                    + "cn"
+                                                    + "ID)"
+                                                    +  "VALUES(?,?,?,?,?,?,?,?,?)";
                                                     PreparedStatement preparedStatement = con.prepareStatement(sql);
                                                     preparedStatement.setString(1,name);
                                                     preparedStatement.setString(2,ph);
@@ -315,13 +375,16 @@ public class App extends Application{
                                                     preparedStatement.setString(4,ppE.getText());
                                                     preparedStatement.setString(5,mpE.getText());
                                                     preparedStatement.setString(6,bpE.getText());
+                                                    preparedStatement.setString(7,vnE.getText());
+                                                    preparedStatement.setString(8,cnE.getText());
+                                                    preparedStatement.setString(9,Integer.toString(id_g));
                                                     preparedStatement.execute();
                                                     con.close();
                                         }
                                         catch(Exception e1)
                                         {
 
-                                        }
+                                        }}
                                         
                                         GridPane bill = new GridPane();
                         
@@ -373,9 +436,31 @@ public class App extends Application{
                                             j++;
                                             finalBB.setText(Integer.toString(bhelPuri));
                                         }
+
+                                        if(vegNoodles != 0)
+                                        {
+                                            Label finalB = new Label("Veg Noodles");
+                                            bill.add(finalB,0,i);
+                                            i++;
+                                            Label finalBB = new Label();
+                                            bill.add(finalBB,1,j);
+                                            j++;
+                                            finalBB.setText(Integer.toString(vegNoodles));
+                                        }
+
+                                        if(chickenNoodles != 0)
+                                        {
+                                            Label finalB = new Label("Chicken Noodles");
+                                            bill.add(finalB,0,i);
+                                            i++;
+                                            Label finalBB = new Label();
+                                            bill.add(finalBB,1,j);
+                                            j++;
+                                            finalBB.setText(Integer.toString(chickenNoodles));
+                                        }
                                         Label totalBill = new Label();
                                         bill.add(totalBill,0,i);
-                                        int finalBillPrint = paniPuri + masalaPuri + bhelPuri;
+                                        int finalBillPrint = paniPuri + masalaPuri + bhelPuri + vegNoodles + chickenNoodles;
                                         if(finalBillPrint > 0)
                                             totalBill.setText("Total Price : Rs."+Integer.toString(finalBillPrint));
                                         //Later
@@ -390,19 +475,24 @@ public class App extends Application{
                                                 File file = new File("Bill.txt");
                                                 FileWriter fw = new FileWriter(file);
                                                 PrintWriter pw = new PrintWriter(fw);
+                                                pw.println("Customer ID: "+id_g);
                                                 pw.println("Customer Name: "+mainreq);
                                                 pw.println("Customer number: "+mainnum);
                                                 pw.println("Customer age: "+mainage);
                                                 pw.println("**************TOTAL AMOUNT**************");
-                                                pw.println("FOOD          QUANTITY    RATE(In Rupee)");
+                                                pw.println("FOOD                QUANTITY     RATE(In Rupee)");
                                                 if(paniPuri != 0)
-                                                    pw.println("Pani Puri"+"        "+ppE.getText()+"         "+paniPuri);
+                                                    pw.println("Pani Puri      "+"        "+ppE.getText()+"         "+paniPuri);
                                                 if(masalaPuri != 0)
-                                                    pw.println("Masala Puri"+"      "+mpE.getText()+"         "+masalaPuri);
+                                                    pw.println("Masala Puri    "+"        "+mpE.getText()+"         "+masalaPuri);
                                                 if(bhelPuri != 0)
-                                                    pw.println("Bhel Puri"+"        "+bpE.getText()+"         "+bhelPuri);
-                                                pw.println("****************************************");
-                                                int totaAmount = paniPuri+masalaPuri+bhelPuri;
+                                                    pw.println("Bhel Puri      "+"        "+bpE.getText()+"         "+bhelPuri);
+                                                if(vegNoodles != 0)
+                                                    pw.println("Veg Noodles    "+"        "+vnE.getText()+"         "+vegNoodles);
+                                                if(chickenNoodles != 0)
+                                                    pw.println("Chicken Noodles"+"        "+cnE.getText()+"         "+chickenNoodles);
+                                               pw.println("****************************************");
+                                                int totaAmount = paniPuri+masalaPuri+bhelPuri+vegNoodles+chickenNoodles;
                                                 pw.println("Total amount: Rs."+totaAmount);
                                                 pw.close();
                                                 
@@ -429,11 +519,12 @@ public class App extends Application{
                                     }
                                 });
                                 Button previous = new Button("Load previous order?");
-                                gridOrder.add(previous,2,7);
+                                gridOrder.add(previous,2,9);
                                 previous.setOnAction(new EventHandler<ActionEvent>(){
                                     @Override
                                     public void handle(ActionEvent e)
                                     {
+                                        updateDBMS = 1;
                                         try 
                                         {
 
@@ -447,11 +538,13 @@ public class App extends Application{
                                            
                                            Statement stmt=(Statement) con.createStatement();
                                            
-                                           ResultSet rs1 = stmt.executeQuery("select pp,mp,bp from user_details where name='"+mainreq+"' and phoneno='"+mainnum+"' and age='"+mainage+"';");
+                                           ResultSet rs1 = stmt.executeQuery("select pp,mp,bp,vn,cn from user_details where ID="+id_g+" and name='"+mainreq+"' and phoneno='"+mainnum+"' and age='"+mainage+"';");
                                            while(rs1.next()){
                                                 ppE.setText(rs1.getString(1));
                                                 mpE.setText(rs1.getString(2));
                                                 bpE.setText(rs1.getString(3));
+                                                vnE.setText(rs1.getString(4));
+                                                cnE.setText(rs1.getString(5));
                                                 break;
                                            }
                                            ppE.setText(rs1.getString(1));
