@@ -15,9 +15,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 public class App extends Application{
     String mainreq,mainnum,mainage,mainid;
-    int updateDBMS=0;
     int paniPuri=0, masalaPuri=0,bhelPuri =0,vegNoodles=0,chickenNoodles=0;
     public static void main(String[] args)  throws IOException{
     
@@ -91,7 +91,7 @@ public class App extends Application{
                  }
                 catch(Exception e1)
                 {
-                    System.out.println(e1);
+                    e1.printStackTrace();
                 }
 
                 primaryStage.close();
@@ -150,8 +150,10 @@ public class App extends Application{
                         data.add(submit,0,6);
                         submit.setOnAction(new EventHandler<ActionEvent>() {
                             public void handle(ActionEvent g){
+                            
                                 String name,ph,age;
-                                int id_g = Integer.parseInt(ID.getText());
+                                int id_g = Integer.parseInt(ID.getText());                                
+                                
                                 name = nameD.getText();
                                 mainreq = nameD.getText();
                                 mainnum = phD.getText();
@@ -346,7 +348,7 @@ public class App extends Application{
                                         else{
                                             chickenNoodles = Integer.parseInt(cnE.getText())*100;
                                         }
-                                        if(updateDBMS == 0){try 
+                                        try 
                                         {
                                             Class c1=Class.forName("com.mysql.cj.jdbc.Driver");
                                                
@@ -386,8 +388,8 @@ public class App extends Application{
                                         }
                                         catch(Exception e1)
                                         {
-
-                                        }}
+                                            e1.printStackTrace();
+                                        }
                                         
                                         GridPane bill = new GridPane();
                         
@@ -527,7 +529,7 @@ public class App extends Application{
                                     @Override
                                     public void handle(ActionEvent e)
                                     {
-                                        //updateDBMS = 1;
+
                                         try 
                                         {
 
@@ -542,21 +544,28 @@ public class App extends Application{
                                            Statement stmt=(Statement) con.createStatement();
                                            
                                            ResultSet rs1 = stmt.executeQuery("select pp,mp,bp,vn,cn from user_details where ID="+id_g+" and name='"+mainreq+"' and phoneno='"+mainnum+"' and age='"+mainage+"';");
+
+                                      
+                                     
+                
                                            while(rs1.next()){
                                                 ppE.setText(rs1.getString(1));
+                                                System.out.println(rs1.getString(1));
                                                 mpE.setText(rs1.getString(2));
+                                                System.out.println(rs1.getString(2));
                                                 bpE.setText(rs1.getString(3));
+                                                System.out.println(rs1.getString(3));
                                                 vnE.setText(rs1.getString(4));
                                                 cnE.setText(rs1.getString(5));
-                                                updateDBMS = 1;
+                                                
                                                 break;
                                            }
-                                           ppE.setText(rs1.getString(1));
+                                          
                                            con.close();
                                         }
                                         catch(Exception e2)
                                         {
-        
+                                                e2.printStackTrace();
                                         }
                                     }
                                 });
