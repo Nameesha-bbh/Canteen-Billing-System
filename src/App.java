@@ -53,7 +53,7 @@ public class App extends Application{
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                /*try 
+                try 
                 {
                         Class c1=Class.forName("com.mysql.cj.jdbc.Driver");
                         
@@ -92,7 +92,7 @@ public class App extends Application{
                 catch(Exception e1)
                 {
                     System.out.println(e1);
-                }*/
+                }
 
                 primaryStage.close();
                 GridPane ask = new GridPane();
@@ -345,8 +345,8 @@ public class App extends Application{
                                         }
                                         else{
                                             chickenNoodles = Integer.parseInt(cnE.getText())*100;
-                                        }if(updateDBMS == 0){
-                                        try 
+                                        }
+                                        if(updateDBMS == 0){try 
                                         {
                                             Class c1=Class.forName("com.mysql.cj.jdbc.Driver");
                                                
@@ -365,7 +365,7 @@ public class App extends Application{
                                                     + "mp,"
                                                     + "bp,"
                                                     + "vn,"
-                                                    + "cn"
+                                                    + "cn,"
                                                     + "ID)"
                                                     +  "VALUES(?,?,?,?,?,?,?,?,?)";
                                                     PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -376,6 +376,9 @@ public class App extends Application{
                                                     preparedStatement.setString(5,mpE.getText());
                                                     preparedStatement.setString(6,bpE.getText());
                                                     preparedStatement.setString(7,vnE.getText());
+                                                    System.out.println(vnE.getText());
+                                                    System.out.println(cnE.getText());
+                                                    System.out.println(id_g);
                                                     preparedStatement.setString(8,cnE.getText());
                                                     preparedStatement.setString(9,Integer.toString(id_g));
                                                     preparedStatement.execute();
@@ -524,7 +527,7 @@ public class App extends Application{
                                     @Override
                                     public void handle(ActionEvent e)
                                     {
-                                        updateDBMS = 1;
+                                        //updateDBMS = 1;
                                         try 
                                         {
 
@@ -545,6 +548,7 @@ public class App extends Application{
                                                 bpE.setText(rs1.getString(3));
                                                 vnE.setText(rs1.getString(4));
                                                 cnE.setText(rs1.getString(5));
+                                                updateDBMS = 1;
                                                 break;
                                            }
                                            ppE.setText(rs1.getString(1));
