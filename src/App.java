@@ -16,9 +16,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 public class App extends Application{
     String mainreq,mainnum,mainage,mainid;
-    int paniPuri=0, masalaPuri=0,bhelPuri =0,vegNoodles=0,chickenNoodles=0;
+    int res=0;
+        int paniPuri=0, masalaPuri=0,bhelPuri =0,vegNoodles=0,chickenNoodles=0;
     public static void main(String[] args)  throws IOException{
     
     launch(args);
@@ -65,7 +67,7 @@ public class App extends Application{
                         
                         Statement stmt=(Statement) con.createStatement();
                         ResultSet rs = stmt.executeQuery("select * from users;");
-                        int res=0;
+                        
                         String eD;
                         String dD;
                         String eP,dP;
@@ -78,23 +80,27 @@ public class App extends Application{
                             if(eD.equals(dD) && eP.equals(dP))
                             {
                                 res = 1;
+                                primaryStage.close();
                                 break;
                             }
-                            if(res == 0)
+                            else
                             {
+                                res = 0;
                                 System.out.println("Wrong username or password");
+                                
                                 System.exit(0);
                             }
                             con.close();
                         }
+                        rs.close();
                 
                  }
                 catch(Exception e1)
                 {
                     e1.printStackTrace();
                 }
-
-                primaryStage.close();
+                
+                if(res == 1){
                 GridPane ask = new GridPane();
                 
                 ask.setHgap(10);
@@ -253,7 +259,7 @@ public class App extends Application{
                                         int p=0,m=0,b2=0,v=0,c=0,total=1;
                                         if (ppE.getText().equals(""))
                                         {
-                                            panipuri.setText("Rs."+String.valueOf(p));
+                                            panipuri.setText("Rs."+p);
                                         }
                                         else{
         
@@ -378,9 +384,9 @@ public class App extends Application{
                                                     preparedStatement.setString(5,mpE.getText());
                                                     preparedStatement.setString(6,bpE.getText());
                                                     preparedStatement.setString(7,vnE.getText());
-                                                    System.out.println(vnE.getText());
-                                                    System.out.println(cnE.getText());
-                                                    System.out.println(id_g);
+                                                    //System.out.println(vnE.getText());
+                                                    //System.out.println(cnE.getText());
+                                                    //System.out.println(id_g);
                                                     preparedStatement.setString(8,cnE.getText());
                                                     preparedStatement.setString(9,Integer.toString(id_g));
                                                     preparedStatement.execute();
@@ -550,11 +556,11 @@ public class App extends Application{
                 
                                            while(rs1.next()){
                                                 ppE.setText(rs1.getString(1));
-                                                System.out.println(rs1.getString(1));
+                                                //System.out.println(rs1.getString(1));
                                                 mpE.setText(rs1.getString(2));
-                                                System.out.println(rs1.getString(2));
+                                                //System.out.println(rs1.getString(2));
                                                 bpE.setText(rs1.getString(3));
-                                                System.out.println(rs1.getString(3));
+                                                //System.out.println(rs1.getString(3));
                                                 vnE.setText(rs1.getString(4));
                                                 cnE.setText(rs1.getString(5));
                                                 
@@ -580,7 +586,7 @@ public class App extends Application{
 
                 askWindow.show();
             
-            }
+            }}
 
         });
 
